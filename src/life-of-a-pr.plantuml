@@ -1,38 +1,44 @@
 @startuml Nixos - Life of a pull request
-skinparam defaultTextAlignment center
-skinparam swimlaneWidth same
-skinparam linetype polyline
-skinparam linetype ortho
 
 title NixOS - Life of a pull request
 
-|#4078c0|Github|
-|#white|Contributor|
-|#grey|Maintainer|
 |#d1ecf1|Hydra|
+|#4078c0|Github|
+|#grey|Maintainer|
+|#white|Contributor|
 
 |Contributor|
 start
-  :Submit a PR against master branch;
+  #238636:Submit new PR against master branch;
 
   repeat
     repeat
-      backward :Add commit(s);
+      backward :Update commit(s)>
       |Github|
       :Trigger CI>
       |Contributor|
-    repeat while (Build is green?) is (no) not (yes)
+    repeat while (Build is green?) is (<color:#f85149>no) not (<color:#238636>yes)
+
+    repeat
     :Wait for approvals;
+    backward :Post message on Matrix or Discourse>
+    repeat while (Waiting too long?) is (yes) not (no)
     |Maintainer|
     :Make review>
-  |Contributor|
-  backward :Add commit(s);
+    |Contributor|
+    backward :Update commit(s)>
   repeat while (Changes requested?) is (yes) not (no)
   |Maintainer|
-  :Approve PR;
+  if (PR) is (is invalid) then
+    #f85149:Close the PR>
+    kill
+  else (is valid)
+  endif
+  #238636:Approve PR;
 
   |Maintainer|
-  :Merge PR to master branch;
+  #8957e5:Merge PR;
+  :Thanks the contributor;
 
   |Hydra|
   :Start to build new job nixpkgs/trunk/unstable;

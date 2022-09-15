@@ -1,10 +1,14 @@
 @startuml Nixos - Life of a pull request
+skinparam defaultTextAlignment center
+skinparam swimlaneWidth same
+skinparam linetype polyline
+skinparam linetype ortho
 
 title NixOS - Life of a pull request
 
 |#4078c0|Github|
 |#white|Contributor|
-|#grey|Contributor committer|
+|#grey|Maintainer|
 |#d1ecf1|Hydra|
 
 |Contributor|
@@ -15,28 +19,30 @@ start
     backward :Add commit(s);
     |Github|
     :Trigger CI>
+    |Contributor|
   repeat while (Build is green?) is (no) not (yes)
 
   repeat
-    |Contributor|
     :Wait for approvals;
 
-    |Contributor committer|
+    |Maintainer|
     :Make review>
     if (Request changes?) then (yes)
+      |Contributor|
       repeat
-        |Contributor|
         :Add commit(s);
         |Github|
         :Trigger CI>
+        |Contributor|
       repeat while (Build is green?) is (no) not (yes)
     else (no)
-      |Contributor committer|
+      |Maintainer|
       :Approve PR;
     endif
+    |Contributor|
   repeat while (PR is approved?) is (no) not (yes)
 
-  |Contributor committer|
+  |Maintainer|
   :Merge PR to master branch;
 
   |Hydra|

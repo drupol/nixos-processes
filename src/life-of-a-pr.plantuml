@@ -11,6 +11,10 @@ title NixOS - Life of a pull request
 start
   #238636:Submit new PR against master branch;
 
+  |Github|
+  :Request review from code owners;
+
+  |Contributor|
   repeat
     repeat
       backward :Update commit(s)>
@@ -30,7 +34,7 @@ start
   repeat while (Changes requested?) is (yes) not (no)
   |Maintainer|
   if (PR) is (is invalid) then
-    #f85149:Close the PR>
+    #f85149:Close PR>
     kill
   else (is valid)
   endif

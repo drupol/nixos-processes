@@ -16,31 +16,18 @@ start
   :Submit a PR against master branch;
 
   repeat
-    backward :Add commit(s);
-    |Github|
-    :Trigger CI>
-    |Contributor|
-  repeat while (Build is green?) is (no) not (yes)
-
-  repeat
+    repeat
+      backward :Add commit(s);
+      |Github|
+      :Trigger CI>
+      |Contributor|
+    repeat while (Build is green?) is (no) not (yes)
     :Wait for approvals;
-
     |Maintainer|
     :Make review>
-    if (Request changes?) then (yes)
-      |Contributor|
-      repeat
-        :Add commit(s);
-        |Github|
-        :Trigger CI>
-        |Contributor|
-      repeat while (Build is green?) is (no) not (yes)
-    else (no)
-      |Maintainer|
-      :Approve PR;
-    endif
-    |Contributor|
-  repeat while (PR is approved?) is (no) not (yes)
+  repeat while (Changes requested?) is (yes) not (no)
+  |Maintainer|
+  :Approve PR;
 
   |Maintainer|
   :Merge PR to master branch;

@@ -45,14 +45,19 @@ start
   :Thanks the contributor;
 
   |Hydra|
-  :Start to build new job nixpkgs/trunk/unstable;
+  :Start new build job;
+  fork
   :Build derivations;
-
+  fork again
+  :Upload build artifacts to cache.nixos.org;
+  end fork
   if (Evaluation is green?) is (no) then
+
   stop
+  else (yes)
   endif
 
-  :Upload build artifacts to cache server;
-  :Merge master branch in nixpkgs-unstable branch;
+  :Update NixOS channel;
+  :Update git branch;
 end
 @enduml

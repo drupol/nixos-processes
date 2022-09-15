@@ -25,6 +25,8 @@ start
     :Wait for approvals;
     |Maintainer|
     :Make review>
+  |Contributor|
+  backward :Add commit(s);
   repeat while (Changes requested?) is (yes) not (no)
   |Maintainer|
   :Approve PR;

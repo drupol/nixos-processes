@@ -1,0 +1,61 @@
+@startuml Nixos - Life of a pull request
+
+title NixOS - Life of a pull request
+
+|#4078c0|Github|
+|#white|Contributor|
+|#grey|Contributor committer|
+|#d1ecf1|Hydra|
+
+|Contributor|
+start
+:Submit a PR against master branch;
+
+repeat
+backward :Add commit(s);
+|Github|
+:Trigger CI>
+repeat while (Build is green?) is (no) not (yes)
+
+|Contributor|
+:Wait for approvals;
+
+repeat
+|Contributor committer|
+:Make review>
+if (Request changes?) then (yes)
+|Contributor|
+:Add commit(s);
+else (no)
+endif
+
+
+repeat
+|Contributor|
+backward :Add commit(s);
+|Github|
+:Trigger CI>
+repeat while (Build is green?) is (no) not (yes)
+
+|Contributor|
+:Wait for approvals;
+
+|Contributor committer|
+repeat while (PR is approved) is (no) not (yes)
+
+|Contributor committer|
+:Merge PR to master branch;
+
+|Hydra|
+:Start to build new job nixpkgs/trunk/unstable;
+
+:Build derivations;
+if (Evaluation is green?) is (no) then
+stop
+endif;
+
+:Upload build artifacts to cache server;
+
+:Merge master branch in nixpkgs-unstable branch;
+end
+@enduml

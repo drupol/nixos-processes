@@ -9,53 +9,45 @@ title NixOS - Life of a pull request
 
 |Contributor|
 start
-:Submit a PR against master branch;
+  :Submit a PR against master branch;
 
-repeat
-backward :Add commit(s);
-|Github|
-:Trigger CI>
-repeat while (Build is green?) is (no) not (yes)
+  repeat
+    backward :Add commit(s);
+    |Github|
+    :Trigger CI>
+  repeat while (Build is green?) is (no) not (yes)
 
-|Contributor|
-:Wait for approvals;
+  repeat
+    |Contributor|
+    :Wait for approvals;
 
-repeat
-|Contributor committer|
-:Make review>
-if (Request changes?) then (yes)
-|Contributor|
-:Add commit(s);
-else (no)
-endif
+    |Contributor committer|
+    :Make review>
+    if (Request changes?) then (yes)
+      repeat
+        |Contributor|
+        :Add commit(s);
+        |Github|
+        :Trigger CI>
+      repeat while (Build is green?) is (no) not (yes)
+    else (no)
+      |Contributor committer|
+      :Approve PR;
+    endif
+  repeat while (PR is approved?) is (no) not (yes)
 
+  |Contributor committer|
+  :Merge PR to master branch;
 
-repeat
-|Contributor|
-backward :Add commit(s);
-|Github|
-:Trigger CI>
-repeat while (Build is green?) is (no) not (yes)
+  |Hydra|
+  :Start to build new job nixpkgs/trunk/unstable;
+  :Build derivations;
 
-|Contributor|
-:Wait for approvals;
+  if (Evaluation is green?) is (no) then
+  stop
+  endif
 
-|Contributor committer|
-repeat while (PR is approved) is (no) not (yes)
-
-|Contributor committer|
-:Merge PR to master branch;
-
-|Hydra|
-:Start to build new job nixpkgs/trunk/unstable;
-
-:Build derivations;
-if (Evaluation is green?) is (no) then
-stop
-endif;
-
-:Upload build artifacts to cache server;
-
-:Merge master branch in nixpkgs-unstable branch;
+  :Upload build artifacts to cache server;
+  :Merge master branch in nixpkgs-unstable branch;
 end
 @enduml

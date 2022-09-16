@@ -1,0 +1,53 @@
+@startuml
+title NixOS - Channel updates
+skinparam backgroundColor #d1ecf1
+
+|#d1ecf1|Hydra|
+
+start
+  fork
+    group Periodically
+    if (Any job successful?) is (yes) then
+      :Trigger procedure to update channels;
+    else (no)
+    endif
+    end group
+  fork again
+    group Periodically
+    repeat
+      |Hydra|
+      :Pull changes from Github;
+    repeat while (Change detected?) is (no) not (yes)
+    end group
+    fork
+      :New job **nixpkgs:trunk**;
+      fork
+        :Build packages;
+      fork again
+       :Upload build artifacts to cache.nixos.org;
+      end fork
+    fork again
+     :New job **nixos:trunk-combined**;
+      fork
+        :Build packages;
+        :Build Nixos modules;
+        :Run tests;
+      fork again
+        :Upload build artifacts to cache.nixos.org;
+      end fork
+    fork again
+      :New job **nixos:unstable-small**;
+      fork
+        :Build packages;
+        :Build Nixos modules;
+        :Run tests;
+      fork again
+        :Upload build artifacts to cache.nixos.org;
+      end fork
+    end merge
+
+    :TODO: What happen here?;
+  end merge
+
+end
+@enduml

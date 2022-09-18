@@ -18,25 +18,26 @@ mindmapDiagram {
 **** <&box> Packages
 *** <&task> nixos:trunk-combined
 **** <&box> Packages
-**** <&layers> Nixos modules
-**** <&aperture> Tests
+**** <&layers> NixOS modules
+**** <&aperture> NixOS tests
 *** <&task> nixos:unstable-small
 **** <&box> Limited packages set
-**** <&layers> Nixos modules
-**** <&aperture> Tests
+**** <&layers> NixOS modules
+**** <&aperture> NixOS tests
 ** <&fork>staging
-*** <&task> nixpkgs:staging-small
+*** <&task> nixos:staging-small
 ** <&fork>staging-next
 *** <&task> nixpkgs:staging-next
+*** <&task> nixos:staging-next-small
 ** <&fork>release-22.05
 *** <&task> nixos:release-22.05
 **** <&box> Packages
-**** <&layers> Nixos modules
-**** <&aperture> Tests
+**** <&layers> NixOS modules
+**** <&aperture> NixOS tests
 *** <&task> nixos:release-22.05-small
 **** <&box> Limited packages set
-**** <&layers> Nixos modules
-**** <&aperture> Tests
+**** <&layers> NixOS modules
+**** <&aperture> NixOS tests
 *** <&task> nixos:release-22.05-aarch64
 *** <&task> nixos:release-22.05-darwin
 **** <&cog> x86_64-darwin

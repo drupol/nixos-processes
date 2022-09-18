@@ -1,0 +1,30 @@
+@startmindmap
+title NixOS - Hydra branches and jobsets
+
+<style>
+mindmapDiagram {
+  :depth(0) {
+    BackGroundColor d1ecf1
+  }
+  :depth(1) {
+    BackGroundColor 4078c0
+  }
+}
+</style>
+
+* <&droplet>Hydra
+** <&fork>master
+*** <&task> nixpkgs:trunk
+*** <&task> nixos:trunk-combined
+*** <&task> nixos:unstable-small
+** <&fork>staging
+*** <&task> nixpkgs:staging-small
+** <&fork>staging-next
+*** <&task> nixpkgs:staging-next
+** <&fork>release-22.05
+*** <&task> nixos:release-22.05
+*** <&task> nixos:release-22.05-small
+*** <&task> nixos:release-22.05-aarch64
+*** <&task> nixos:release-22.05-darwin
+
+@endmindmap

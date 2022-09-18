@@ -9,6 +9,9 @@ mindmapDiagram {
   :depth(1) {
     BackGroundColor 4078c0
   }
+  :depth(2) {
+    BackGroundColor b5ffb5
+  }
 }
 </style>
 
@@ -42,4 +45,11 @@ mindmapDiagram {
 *** <&task> nixos:release-22.05-darwin
 **** <&cog> x86_64-darwin
 **** <&cog> aarch64-darwin
+
+legend
+|= |= Type |
+| <#4078c0> <&fork> | Git branch |
+| <#b5ffb5> <&task> | Hydra jobset |
+endlegend
+
 @endmindmap

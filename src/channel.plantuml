@@ -1,5 +1,9 @@
 @startuml
 title NixOS - Channel updates
+header
+https://github.com/drupol/nixos-processes
+endheader
+
 skinparam backgroundColor #d1ecf1
 
 |#d1ecf1|Hydra|

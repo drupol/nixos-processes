@@ -11,8 +11,8 @@ skinparam backgroundColor #d1ecf1
 start
   fork
     group Periodically
-    if (Any job successful?) is (yes) then
-      :Trigger procedure to update channels>
+    if (Successful jobs found?) is (yes) then
+      :Update channels>
     else (no)
     endif
     end group
@@ -132,10 +132,10 @@ end
 
 legend
 |= |= Type |
-| <#lightblue> <&fork> | Normal package set |
-| <#lightskyblue> <&fork> | Limited package set |
-| <#orange> <&fork> | Git branch |
-| <#b5ffb5> <&task> | Hydra jobset |
+| <#lightblue> <&box> | Normal package set |
+| <#lightskyblue> <&box> | Limited package set |
+| <#orange> <&data-transfer-upload> | Upload build artifacts to cache.nixos.org |
+| <#b5ffb5> <&task> | Hydra jobset name |
 endlegend
 
 @enduml

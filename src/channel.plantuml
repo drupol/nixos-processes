@@ -20,7 +20,7 @@ start
     group Periodically
     repeat
       |Hydra|
-      :<&data-transfer-download> Pull changes from Github;
+      :<&cloud-download> Pull changes from Github;
     repeat while (Change detected?) is (no) not (yes)
     end group
 
@@ -30,26 +30,26 @@ start
           fork
             #lightblue:<&box> Build packages;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
          #b5ffb5:<&task> New job **nixos:trunk-combined**;
           fork
             #lightblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
           fork again
-            #orange:<&data-transfer-upload> Upload build artifacts;
+            #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
           #b5ffb5:<&task> New job **nixos:unstable-small**;
           fork
-            #lightskyblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            #lightslategrey:<&box> Build packages;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
 
           fork again
-            #orange:<&data-transfer-upload> Upload build artifacts;
+            #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         end merge
       endif
@@ -58,12 +58,12 @@ start
         fork
           #b5ffb5:<&task> New job **nixos:staging-small**;
           fork
-            #lightskyblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            #lightslategrey:<&box> Build packages;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
 
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         end merge
       endif
@@ -74,14 +74,14 @@ start
           fork
             #lightblue:<&box> Build packages;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
           #b5ffb5:<&task> New job **nixos:staging-next-small**;
           fork
-            #lightskyblue:<&box> Build packages;
+            #lightslategrey:<&box> Build packages;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         end merge
       endif
@@ -91,37 +91,37 @@ start
           #b5ffb5:<&task> New job **nixos:release-22.05**;
           fork
             #lightblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
           #b5ffb5:<&task> New job **nixos:release-22.05-small**;
           fork
-            #lightskyblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            #lightslategrey:<&box> Build packages;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
           #b5ffb5:<&task> New job **nixos:release-22.05-aarch64**;
           fork
             #lightblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         fork again
           #b5ffb5:<&task> New job **nixos:release-22.05-darwin**;
           fork
             #lightblue:<&box> Build packages;
-            :<&layers> Build Nixos modules;
+            :<&layers> Evaluate Nixos modules;
             :<&aperture> Run tests;
           fork again
-           #orange:<&data-transfer-upload> Upload build artifacts;
+           #darkseagreen:<&cloud-upload> Upload build artifacts;
           end fork
         end merge
       endif
@@ -131,11 +131,9 @@ start
 end
 
 legend
-|= |= Type |
 | <#lightblue> <&box> | Normal package set |
-| <#lightskyblue> <&box> | Limited package set |
-| <#orange> <&data-transfer-upload> | Upload build artifacts to cache.nixos.org |
-| <#b5ffb5> <&task> | Hydra jobset name |
+| <#lightslategrey> <&box> | Limited package set |
+| <#b5ffb5> <&task> | Hydra jobset |
 endlegend
 
 @enduml

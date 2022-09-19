@@ -13,16 +13,16 @@ title NixOS - Life of a pull request
 
 |Contributor|
 start
-  #238636:Submit new PR against master branch;
+  #238636:<&plus> Submit new PR against master branch;
 
   |Github|
-  :CI: Request review from code owners;
+  :<&bell> CI: Request review from code owners;
 
   |Contributor|
   repeat
     repeat
       label Here
-      backward :Update commit(s)>
+      backward :<&fork> Update commit(s)>
       |Github|
       fork
       :CI: Editorconfig checks>
@@ -42,53 +42,45 @@ start
     repeat while (Build is green?) is (<color:#f85149>no) not (<color:#238636>yes)
 
     repeat
-    :Wait for approvals;
-    backward :Post message on Matrix or Discourse>
+    :<&clock> Wait for approvals;
+    backward :<&chat> Post message on Matrix or Discourse>
     repeat while (Waiting too long?) is (yes) not (no)
     |Maintainer|
-    :Make review>
+    :<&pencil> Make review>
     |Contributor|
-    backward :Update commit(s)>
+    backward :<&fork> Update commit(s)>
   repeat while (Changes requested?) is (yes) not (no)
   |Maintainer|
   if (PR) is (is invalid) then
-    #f85149:Close PR>
+    #f85149:<&ban> Close PR>
     stop
   else (is valid)
   endif
-  #238636:Approve PR;
+  #238636:<&check> Approve PR;
 
   |Maintainer|
-  #8957e5:Merge PR;
+  #8957e5:<&fork> Merge PR;
 
   fork
   |Github|
   if (PR has backport labels?) is (yes) then
-    :CI: Create backport PR>
+    :<&plus> CI: Create backport PR>
   else (no)
   endif
   fork again
   |Maintainer|
-  :Thanks the contributor;
+  :<&heart> Thanks the contributor;
   end fork
 
   |Hydra|
-  :Start new build job;
-  fork
-  :Build derivations;
-  fork again
-  :Upload build artifacts to cache.nixos.org;
-  end fork
+  :<&bolt> Start new build job;
+  :<&task> Build specific jobset>
   if (Evaluation is green?) is (no) then
 
   stop
   else (yes)
   endif
 
-  fork
-  :Update NixOS channel;
-  fork again
-  :Update git branch;
-  end fork
+  :<&cog> Trigger procedure to update channel and git branch>
 end
 @enduml

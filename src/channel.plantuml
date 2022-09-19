@@ -12,7 +12,7 @@ start
   fork
     group Periodically
     if (Any job successful?) is (yes) then
-      :Trigger procedure to update channels;
+      :Trigger procedure to update channels>
     else (no)
     endif
     end group
@@ -20,38 +20,122 @@ start
     group Periodically
     repeat
       |Hydra|
-      :Pull changes from Github;
+      :<&data-transfer-download> Pull changes from Github;
     repeat while (Change detected?) is (no) not (yes)
     end group
-    fork
-      :New job **nixpkgs:trunk**;
-      fork
-        :Build packages;
-      fork again
-       :Upload build artifacts to cache.nixos.org;
-      end fork
-    fork again
-     :New job **nixos:trunk-combined**;
-      fork
-        :Build packages;
-        :Build Nixos modules;
-        :Run tests;
-      fork again
-        :Upload build artifacts to cache.nixos.org;
-      end fork
-    fork again
-      :New job **nixos:unstable-small**;
-      fork
-        :Build packages;
-        :Build Nixos modules;
-        :Run tests;
-      fork again
-        :Upload build artifacts to cache.nixos.org;
-      end fork
-    end merge
 
-    :TODO: What happen here?;
+      if (Git branch) is (master) then
+        fork
+          #b5ffb5:<&task> New job **nixpkgs:trunk**;
+          fork
+            #lightblue:<&box> Build packages;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+         #b5ffb5:<&task> New job **nixos:trunk-combined**;
+          fork
+            #lightblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+          fork again
+            #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+          #b5ffb5:<&task> New job **nixos:unstable-small**;
+          fork
+            #lightskyblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+
+          fork again
+            #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        end merge
+      endif
+
+      if (Git branch) is (staging) then
+        fork
+          #b5ffb5:<&task> New job **nixos:staging-small**;
+          fork
+            #lightskyblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        end merge
+      endif
+
+      if (Git branch) is (staging-next) then
+        fork
+          #b5ffb5:<&task> New job **nixpkgs:staging-next**;
+          fork
+            #lightblue:<&box> Build packages;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+          #b5ffb5:<&task> New job **nixos:staging-next-small**;
+          fork
+            #lightskyblue:<&box> Build packages;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        end merge
+      endif
+
+      if (Git branch) is (release-22.05) then
+        fork
+          #b5ffb5:<&task> New job **nixos:release-22.05**;
+          fork
+            #lightblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+          #b5ffb5:<&task> New job **nixos:release-22.05-small**;
+          fork
+            #lightskyblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+          #b5ffb5:<&task> New job **nixos:release-22.05-aarch64**;
+          fork
+            #lightblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        fork again
+          #b5ffb5:<&task> New job **nixos:release-22.05-darwin**;
+          fork
+            #lightblue:<&box> Build packages;
+            :<&layers> Build Nixos modules;
+            :<&aperture> Run tests;
+          fork again
+           #orange:<&data-transfer-upload> Upload build artifacts;
+          end fork
+        end merge
+      endif
+
   end merge
 
 end
+
+legend
+|= |= Type |
+| <#lightblue> <&fork> | Normal package set |
+| <#lightskyblue> <&fork> | Limited package set |
+| <#orange> <&fork> | Git branch |
+| <#b5ffb5> <&task> | Hydra jobset |
+endlegend
+
 @enduml

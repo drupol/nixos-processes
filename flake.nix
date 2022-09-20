@@ -20,6 +20,7 @@
 
         packages = [
           pkgs.plantuml
+          pkgs.jetbrains.phpstorm
         ];
 
       in {
